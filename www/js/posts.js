@@ -7,6 +7,9 @@ window.onload = function() {
 function pronto() {
     var botao = document.getElementById('botao');
     botao.addEventListener('click', buscaPost);
+
+    var scrollContainer = document.getElementById('scrollContainer');
+    scrollContainer.addEventListener('scroll', verificaRolagem);
 }
 
 function buscaPost() {
@@ -19,37 +22,26 @@ function buscaPost() {
 
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
-       var objetoRecebido = JSON.parse(this.responseText);
-       titulo = objetoRecebido.title;
-       corpo = objetoRecebido.body;
+        var objetoRecebido = JSON.parse(this.responseText);
+        titulo = objetoRecebido.title;
+        corpo = objetoRecebido.body;
 
-       var campoTitulo = document.getElementById('title');
-       campoTitulo.innerHTML = titulo;
+        var campoTitulo = document.getElementById('title');
+        campoTitulo.innerHTML = titulo;
 
-       var campoCorpo = document.getElementById('body');
-       campoCorpo.innerHTML = corpo;
+        var campoCorpo = document.getElementById('body');
+        campoCorpo.innerHTML = corpo;
     }
     xhttp.open("GET", endereco, true);
     xhttp.send();
+}
 
-    let lastKnownScrollPosition = 0;
-    let ticking = false;
-
-    function doSomething(scrollPos) {
-    output.textContent = `scrollTop: ${container.scrollTop}`;
+function verificaRolagem() {
+    var scrollContainer = document.getElementById('scrollContainer');
+    if (scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight) {
+        // Limpa os campos se chegou ao final
+        document.getElementById('num').value = '';
+        document.getElementById('title').innerHTML = '';
+        document.getElementById('body').innerHTML = '';
     }
-
-    document.addEventListener("scroll", (event) => {
-    lastKnownScrollPosition = window.scrollY;
-
-    if (!ticking) {
-        window.requestAnimationFrame(() => {
-        doSomething(lastKnownScrollPosition);
-        ticking = false;
-        });
-
-        ticking = true;
-    }
-    });
-
 }
