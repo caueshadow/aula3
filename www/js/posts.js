@@ -38,8 +38,18 @@ function buscaPost() {
 
 function verificaRolagem() {
     var scrollContainer = document.getElementById('scrollContainer');
+    
+    // Verifica se chegou ao final
     if (scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight) {
         // Limpa os campos se chegou ao final
+        document.getElementById('num').value = '';
+        document.getElementById('title').innerHTML = '';
+        document.getElementById('body').innerHTML = '';
+    }
+
+    // Verifica se chegou ao topo
+    if (scrollContainer.scrollTop === 0) {
+        // Limpa os campos se chegou ao topo
         document.getElementById('num').value = '';
         document.getElementById('title').innerHTML = '';
         document.getElementById('body').innerHTML = '';
